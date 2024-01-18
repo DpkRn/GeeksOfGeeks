@@ -9,6 +9,43 @@ using namespace std;
 //User function Template for C++
 
 class Solution {
+    void f(int i,vector<int> &p,vector<vector<int>> &ans,bool vis[],vector<int> &arr,int n){
+        if(i==n){
+            ans.push_back(p);
+            return;
+        }
+        for(int j=0;j<n;j++){
+            if(vis[j]==false){
+            if(j>0){
+                if(arr[j]==arr[j-1]&&vis[j-1]==false) continue;
+                 p.push_back(arr[j]);
+                 vis[j]=1;
+                 f(i+1,p,ans,vis,arr,n);
+                 p.pop_back();
+                 vis[j]=0;
+                }else{
+                p.push_back(arr[j]);
+                vis[j]=1;
+                f(i+1,p,ans,vis,arr,n);
+                p.pop_back();
+                vis[j]=0;
+               }
+            }
+        }
+    }
+  public:
+    vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
+        vector<vector<int>> ans;
+        bool vis[n];
+        vector<int> p;
+        sort(arr.begin(),arr.end());
+        f(0,p,ans,vis,arr,n);
+        return ans;
+    }
+};
+/*
+//using predefined method
+class Solution {
   public:
     vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
         // code here
@@ -22,6 +59,7 @@ class Solution {
     }
     
 };
+*/
 
 //{ Driver Code Starts.
 
