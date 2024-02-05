@@ -38,26 +38,37 @@ class Solution
     public:
     Node *sortedInsert(Node* head, int data)
     {
-        if(head==NULL){
-            head=new Node(data);
-            head->next=head;
-            return head;
+        Node *newNode = new Node(data);
+        if (head == nullptr) {
+        newNode->next = newNode; // Point to itself as it's the only node
+        return newNode;
         }
-        Node* curr=head;
-        while(curr->next!=head and curr->next->data<=data) curr=curr->next;
-        Node* node=new Node(data);
-        Node* tmp=curr->next;
-        curr->next=node;
-        node->next=tmp;
-        if(head->data>head->next->data){
-            int tmp=head->data;
-            head->data=head->next->data;
-            head->next->data=tmp;
-        }
-        return head;
-
+        
+       Node * curr=head;
+      
+       if(curr->data>=data){
+           Node* node=new Node(data);
+           node->next=head;
+           Node* temp=head;
+           while(temp->next!=head) temp=temp->next;
+           temp->next=node;
+           head=node;
+           return head;
+       }
+        Node* prev=head;
+        curr=head->next;
+      
+       while(data>curr->data&&curr!=head) {
+           prev=curr;
+           curr=curr->next;
+       }
+           prev->next=new Node(data);
+           prev->next->next=curr;
+              
+           return head;
     }
 };
+
 
 //{ Driver Code Starts.
 
