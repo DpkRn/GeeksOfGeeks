@@ -6,6 +6,35 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in an undirected graph.
+    //using dfs
+    bool detect(int src,int parent,vector<int> adj[],vector<bool> &vis){
+       vis[src]=true;
+       for(auto it:adj[src]){
+         if(!vis[it]){
+             if(detect(it,src,adj,vis)==true) return true;
+         }else{
+             if(parent!=it)
+             return true;
+         }
+           
+       }
+       return false;
+    }
+    
+    bool isCycle(int V, vector<int> adj[]) {
+        vector<bool> vis(V,0);
+        for(int i=0;i<V;i++){
+           if(!vis[i])
+           if(detect(i,-1,adj,vis)==true) return true; 
+        }
+        return false;
+    }
+};
+/*
+//using bfs
+class Solution {
+  public:
+    // Function to detect cycle in an undirected graph.
     bool detect(int src,vector<int> adj[],vector<int> &vis){
         
         queue<pair<int,int>> q;
@@ -39,6 +68,7 @@ class Solution {
     }
    
 };
+*/
 
 //{ Driver Code Starts.
 int main() {
