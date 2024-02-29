@@ -5,8 +5,30 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-    bool bfs(int src,vector<int> adj[],vector<int>&color){
-         
+    bool dfs(int src,vector<int> adj[],vector<int>&color,int prevC){
+        color[src]=(!prevC);
+        for(auto adjNode:adj[src]){
+            if(color[adjNode]==-1){
+                if(!dfs(adjNode,adj,color,color[src])) return false;
+            }else{
+                if(color[adjNode]==color[src]) return false;
+            }
+        }
+        return true;
+    }
+	bool isBipartite(int V, vector<int>adj[]){
+	   vector<int> color(V,-1);
+	   for(int i=0;i<V;i++){
+	       if(color[i]==-1)
+	       if(!dfs(i,adj,color,1)) return false;
+	   }
+	   return true;
+	}
+
+};
+//using BFS
+/*
+bool bfs(int src,vector<int> adj[],vector<int>&color){
         queue<int> q;
         q.push(src);
         color[src]=0;
@@ -25,6 +47,7 @@ public:
         }
         return true;
     }
+    
 	bool isBipartite(int V, vector<int>adj[]){
 	   vector<int> color(V,-1);
 	   for(int i=0;i<V;i++){
@@ -33,9 +56,7 @@ public:
 	   }
 	   return true;
        
-	}
-
-};
+	}*/
 
 //{ Driver Code Starts.
 int main(){
