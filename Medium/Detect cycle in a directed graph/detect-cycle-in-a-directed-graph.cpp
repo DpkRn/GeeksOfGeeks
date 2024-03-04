@@ -5,7 +5,39 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    // Function to detect cycle in a directed graph.
+  //USING  BFS
+    
+    bool isCyclic(int V, vector<int> adj[]) {
+       //as we know topoSort only work on Directed Acyclic Graph so we will apply topoSort 
+       //using kahn's Algorithm if fully performed successful then it will be acyclic else cyclic
+       int indegree[V]={0};
+       for(int i=0;i<V;i++){
+           for(auto it:adj[i])
+           indegree[it]++;
+       }
+       queue<int> q;
+       for(int i=0;i<V;i++){
+           if(indegree[i]==0) q.push(i);
+       }
+       int cnt=0;
+       while(!q.empty()){
+           int node=q.front();
+           q.pop();
+           cnt++;
+           for(auto it:adj[node]){
+               indegree[it]--;
+               if(indegree[it]==0) q.push(it);
+               
+           }
+           
+       }
+       if(V==cnt) return false;
+       else return true;
+       
+    }
+};
+//using DFS
+ /*
     bool dfs(int node,vector<int> adj[],vector<int> &vis,vector<int> &path){
         vis[node]=1;
         path[node]=1;
@@ -32,8 +64,7 @@ class Solution {
         }
         return false;
     }
-    
-};
+   */ 
 
 //{ Driver Code Starts.
 
