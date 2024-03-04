@@ -6,7 +6,39 @@ using namespace std;
 class Solution
 {
 	public:
-	//Function to return list containing vertices in Topological order. 
+	//Function to return list containing vertices in Topological order.
+	vector<int> bfs(int V,vector<int> adj[],int indegree[]){
+	    queue<int> q;
+	    vector<int> ans;
+	    for(int i=0;i<V;i++){
+	        if(indegree[i]==0) q.push(i);
+	    }
+	    while(!q.empty()){
+	        int node=q.front();
+	        q.pop();
+	        ans.push_back(node);
+	        for(auto it:adj[node]){
+	            indegree[it]--;
+	            if(indegree[it]==0) q.push(it);
+	        }
+	    }
+	    return ans;
+	}
+	vector<int> topoSort(int V,vector<int> adj[]){
+	    int indegree[V]={0};
+	    for(int i=0;i<V;i++){
+	       for(int j=0;j<adj[i].size();j++){
+	           indegree[adj[i][j]]++;
+	       }    
+	    }
+	   vector<int> ans=bfs(V,adj,indegree);
+	   return ans;
+	   
+	}
+
+};
+//using DFS
+/*
 	void dfs(int node,vector<int> adj[],int vis[],stack<int> &st){
 	    for(auto it:adj[node]){
 	        if(!vis[it]){
@@ -33,7 +65,7 @@ class Solution
 	    }
 	    return ans;
 	}
-};
+*/
 
 //{ Driver Code Starts.
 
