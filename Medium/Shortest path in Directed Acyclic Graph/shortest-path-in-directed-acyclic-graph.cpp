@@ -8,40 +8,31 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
-  void dfs(int node,vector<pair<int,int>> adj[],int vis[],stack<int> &st){
-      vis[node]=1;
-      for(auto it:adj[node]){
-          if(!vis[it.first]){
-              dfs(it.first,adj,vis,st);
-          }
-      }
-      st.push(node);
-  }
+  
      vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
       vector<pair<int,int>> adj[N];
         for(auto it:edges){
             adj[it[0]].push_back({it[1],it[2]});
         }
-        int vis[N]={0};
-        stack<int> st;
-        for(int i=0;i<N;i++){
-            if(!vis[i]){
-                dfs(i,adj,vis,st);
-            }
-        }
-        vector<int> dist(N,1e5);
+        vector<int> dist(N,INT_MAX);
         dist[0]=0;
-         while(!st.empty()){
-            int node=st.top();
-            st.pop();
+        queue<int> q;
+        q.push(0);
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
             for(auto it:adj[node]){
                int v=it.first;
                int wt=it.second;
-               if(dist[node]+wt<dist[v]) dist[v]=dist[node]+wt;
+               if(dist[node]+wt<dist[v]) 
+               {dist[v]=dist[node]+wt;
+                q.push(it.first);
+               }
             }
         }
+        
         for(int i=0;i<dist.size();i++){
-            if(dist[i]==1e5) dist[i]=-1;
+            if(dist[i]==INT_MAX) dist[i]=-1;
         }
         return dist;
     }
@@ -60,8 +51,12 @@ class Solution {
             int node=q.front();
             q.pop();
             for(auto it:adj[node]){
-                dist[it.first]=min(dist[it.first],dist[node]+it.second);
+               int v=it.first;
+               int wt=it.second;
+               if(dist[node]+wt<dist[v]) 
+               {dist[v]=dist[node]+wt;
                 q.push(it.first);
+               }
             }
         }
         
@@ -70,6 +65,7 @@ class Solution {
         }
         return dist;
 */
+
 
 //{ Driver Code Starts.
 int main() {
