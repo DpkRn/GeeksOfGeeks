@@ -10,6 +10,7 @@ class Solution {
   public:
   
      vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+    
       vector<pair<int,int>> adj[N];
         for(auto it:edges){
             adj[it[0]].push_back({it[1],it[2]});
@@ -39,32 +40,10 @@ class Solution {
 };
 /*
   // code here
-        vector<pair<int,int>> adj[N];
-        for(auto it:edges){
-            adj[it[0]].push_back({it[1],it[2]});
-        }
-        vector<int> dist(N,INT_MAX);
-        dist[0]=0;
-        queue<int> q;
-        q.push(0);
-        while(!q.empty()){
-            int node=q.front();
-            q.pop();
-            for(auto it:adj[node]){
-               int v=it.first;
-               int wt=it.second;
-               if(dist[node]+wt<dist[v]) 
-               {dist[v]=dist[node]+wt;
-                q.push(it.first);
-               }
-            }
-        }
+  //without topo
         
-        for(int i=0;i<dist.size();i++){
-            if(dist[i]==INT_MAX) dist[i]=-1;
-        }
-        return dist;
 */
+
 
 
 //{ Driver Code Starts.
