@@ -8,42 +8,32 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
-  
      vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
-    
-      vector<pair<int,int>> adj[N];
+        vector<vector<int>> adj[N];
         for(auto it:edges){
             adj[it[0]].push_back({it[1],it[2]});
         }
-        vector<int> dist(N,INT_MAX);
+        
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        vector<int> dist(N,1e9);
+        pq.push({0,0});
         dist[0]=0;
-        queue<int> q;
-        q.push(0);
-        while(!q.empty()){
-            int node=q.front();
-            q.pop();
+        while(!pq.empty()){
+            int node=pq.top().second;
+            int upto=pq.top().first;
+            pq.pop();
             for(auto it:adj[node]){
-               int v=it.first;
-               int wt=it.second;
-               if(dist[node]+wt<dist[v]) 
-               {dist[v]=dist[node]+wt;
-                q.push(it.first);
-               }
+                if(upto+it[1]<dist[it[0]]){
+                    dist[it[0]]=upto+it[1];
+                    pq.push({dist[it[0]],it[0]});
+                }
             }
         }
-        
-        for(int i=0;i<dist.size();i++){
-            if(dist[i]==INT_MAX) dist[i]=-1;
-        }
+        for(auto &it:dist) if(it==1e9) it=-1;
         return dist;
+        
     }
 };
-/*
-  // code here
-  //without topo
-        
-*/
-
 
 
 //{ Driver Code Starts.
