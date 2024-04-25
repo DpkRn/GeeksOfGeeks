@@ -12,20 +12,23 @@ public:
     bool isSubsetSum(vector<int>arr, int sum){
         // code here 
         int n=arr.size();
-        vector<vector<int>> dp(n+1,vector<int>(sum+1,0));
-        dp[0][0]=1;
+        vector<int> prev(sum+1,0);
+        vector<int> curr(sum+1,0);
+        prev[0]=1;
         for(int i=1;i<=n;i++){
-            for(int j=0;j<=sum;j++){
-                int notpick=dp[i-1][j];
+            for(int j=sum;j>=0;j--){
+                int notpick=prev[j];
                 int pick=0;
                 if(j-arr[i-1]>=0)
-                pick=dp[i-1][j-arr[i-1]];
-                dp[i][j]=pick||notpick;
+                pick=prev[j-arr[i-1]];
+                prev[j]=pick||notpick;
             }
+            // prev=curr;
         }
-        return dp[n][sum];
+        return prev[sum];
     }
 };
+
 
 //{ Driver Code Starts.
 int main() 
