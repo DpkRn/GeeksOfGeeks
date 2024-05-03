@@ -10,24 +10,23 @@ using namespace std;
 class Solution{   
 public:
     bool isSubsetSum(vector<int>arr, int sum){
-        // code here 
-        int n=arr.size();
-        vector<int> prev(sum+1,0);
-        vector<int> curr(sum+1,0);
-        prev[0]=1;
-        for(int i=1;i<=n;i++){
-            for(int j=sum;j>=0;j--){
-                int notpick=prev[j];
-                int pick=0;
-                if(j-arr[i-1]>=0)
-                pick=prev[j-arr[i-1]];
-                prev[j]=pick||notpick;
-            }
-            // prev=curr;
-        }
-        return prev[sum];
+       int n=arr.size();
+       int dp[n+1][sum+1];
+       memset(dp,0,sizeof(dp));
+       dp[0][0]=1;
+       for(int i=1;i<=n;i++){
+           for(int j=0;j<=sum;j++){
+               int notpick=dp[i-1][j]; //not pick case
+               int pick=false;
+               if(j-arr[i-1]>=0) pick=dp[i-1][j-arr[i-1]]; //pick case
+               dp[i][j]=pick||notpick;
+           }
+       }
+       
+       return dp[n][sum];
     }
 };
+
 
 
 //{ Driver Code Starts.
